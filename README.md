@@ -27,7 +27,7 @@ Create the following routes and controller actions:
 	/parties/:id (DELETE) x
 	/parties/:party_id/supplies (GET) x
 	/parties/:party_id/supplies (POST)	??
-	/supplies (GET) ??
+	/supplies (GET) x
 	/supplies (POST) x
 	/supplies/:id (GET) x
 	/supplies/:id (PATCH) x

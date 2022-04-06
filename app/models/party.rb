@@ -4,7 +4,7 @@ class Party < ApplicationRecord
 
     validates :guest_list, :datetime, :location, presence: true
     validates :name, presence: true, uniqueness: true
-    validates :datetime, comparison: { greater_than: Date.current }
+    # validates :datetime, comparison: { greater_than: Date.current }
     # validate :validate_future_date
 
     # def validate_future_date
@@ -25,9 +25,9 @@ class Party < ApplicationRecord
     end
 
     # .next_party_lined_up (find the next party based on its datetime and the current date)
-    def self.next_party_lined_up
+    # def self.next_party_lined_up
     #    self.where(datetime: "datetime > ?", Date.today)
-    end
+    # end
 
 	#.most_supplies (find the party with the most supplies associated)
     def self.most_supplies

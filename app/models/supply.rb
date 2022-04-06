@@ -1,6 +1,6 @@
 class Supply < ApplicationRecord
     has_many :expenses
-    has_many :supplies, through: :expenses
+    has_many :parties, through: :expenses
 
     validates :name, :price, :in_stock, presence: true
     validates :price, numericality: { other_than: 0 }
