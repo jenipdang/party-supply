@@ -1,6 +1,7 @@
 class Party < ApplicationRecord
     has_many :expenses, dependent: :destroy
     has_many :supplies, through: :expenses
+    belongs_to :user
 
     validates :guest_list, :datetime, :location, presence: true
     validates :name, presence: true, uniqueness: true

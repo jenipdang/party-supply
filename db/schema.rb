@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_06_004630) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_07_001428) do
   create_table "expenses", force: :cascade do |t|
     t.integer "party_id", null: false
     t.integer "supply_id", null: false
@@ -21,6 +21,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_06_004630) do
     t.index ["supply_id"], name: "index_expenses_on_supply_id"
   end
 
+  create_table "invitations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "party_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["party_id"], name: "index_invitations_on_party_id"
+    t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
   create_table "parties", force: :cascade do |t|
     t.string "name"
     t.string "datetime"
@@ -28,16 +37,29 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_06_004630) do
     t.string "location"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_parties_on_user_id"
   end
 
   create_table "supplies", force: :cascade do |t|
     t.string "name"
-    t.decimal "price"
+    t.decimal "price", precision: 10, scale: 2
     t.boolean "in_stock"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   add_foreign_key "expenses", "parties"
   add_foreign_key "expenses", "supplies"
+  add_foreign_key "invitations", "parties"
+  add_foreign_key "invitations", "users"
+  add_foreign_key "parties", "users"
 end
