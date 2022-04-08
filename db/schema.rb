@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_07_001428) do
 
   create_table "parties", force: :cascade do |t|
     t.string "name"
-    t.string "datetime"
+    t.datetime "datetime"
     t.string "guest_list"
     t.string "location"
     t.datetime "created_at", null: false

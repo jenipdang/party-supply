@@ -1,15 +1,24 @@
 class Party < ApplicationRecord
     has_many :expenses, dependent: :destroy
     has_many :supplies, through: :expenses
-    belongs_to :user
+    belongs_to :host, class_name: "User", foreign_key: "user_id"
 
     validates :guest_list, :datetime, :location, presence: true
     validates :name, presence: true, uniqueness: true
-    # validates :datetime, comparison: { greater_than: Date.current }
+    validates :datetime, comparison: { greater_than: DateTime.now }
+
     # validate :validate_future_date
 
     # def validate_future_date
     #     if !self.datetime.future?
+    #         self.errors.add(:datetime, "Date must be in the future") #add errors manually on the object
+    #     end
+    # end
+
+    # validate :validate_future_date
+
+    # def validate_future_date
+    #     if !self.datetime.present? || self.datetime < Date.today
     #         self.errors.add(:datetime, "Date must be in the future") #add errors manually on the object
     #     end
     # end
@@ -26,13 +35,18 @@ class Party < ApplicationRecord
     end
 
     # .next_party_lined_up (find the next party based on its datetime and the current date)
-    # def self.next_party_lined_up
-    #    self.where(datetime: "datetime > ?", Date.today)
-    # end
+    def self.next_party_lined_up
+       self.where("datetime > ?", Date.now)
+    end
 
 	#.most_supplies (find the party with the most supplies associated)
     def self.most_supplies
         self.preload(:supplies).all.max_by {|party| party.supplies.length}
     end
-    
+
+    # private
+    # def current_date
+    #     DateTime.now
+    # end
+  
 end

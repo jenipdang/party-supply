@@ -9,7 +9,10 @@ class PartiesController < ApplicationController
 
     #POST "/parties"
     def create
-        @party = Party.create!(party_params)
+        @party = Party.new(party_params)
+        @party.datetime = DateTime.strptime(party_params[:datetime], '%Y-%m-%d %H:%M:%S')
+        @party.save!
+        # @party = Party.create!(party_params)
         render json: serialized_party, status: :created
     end
 
@@ -40,7 +43,7 @@ class PartiesController < ApplicationController
     end
 
     def party_params
-        params.require(:party).permit(:name, :datetime, :guest_list, :location)
+        params.require(:party).permit(:name, :datetime, :guest_list, :location, :user_id)
     end
 
 
