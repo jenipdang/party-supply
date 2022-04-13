@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :supplies, shallow: true #only: [:index, :create]
   end
 
-  resources :users, except: [:destroy] do
+  resources :users do
     resources :parties, shallow: true
   end
   

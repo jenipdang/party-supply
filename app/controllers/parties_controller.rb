@@ -24,6 +24,7 @@ class PartiesController < ApplicationController
     #PATCH "/parties/:id"
     def update
         @party&.update!(party_params)
+        render json: serialized_party, status: :accepted
     end
 
     #DELETE "/parties/:id"

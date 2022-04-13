@@ -4,22 +4,28 @@ class UsersController < ApplicationController
     #GET "/users"
     def index
         users = User.all
-        render json: serialized_user
+        render json: users
     end
 
-    #GET "/users/:user_id"
+    #POST "/users"
+    def create
+        @user = User.create!(user_params)
+        render json: serialized_user, status: :created
+    end
+
+    #GET "/users/:id"
     def show
-        user = User.find(params[:id])
         render json: serialized_user
     end
 
-    #PATCH "/users/:user_id"
+    #PATCH "/users/:id"
     def update
-        @user&.update!(params[:id])
-        render json: serialized_user
+        binding.pry
+        @user&.update!(user_params)
+        render json: serialized_user, status: :accepted
     end
 
-    #DELETE "/users/:user_id"
+    #DELETE "/users/:id"
     def destroy
         @user&.destroy
         render json: {message: "Sucessfully destroyed user"}
@@ -28,16 +34,16 @@ class UsersController < ApplicationController
 
 private
 
-def find_user
-    @user = User.find(params[:id])
-end
+    def find_user
+        @user = User.find(params[:id])
+    end
 
-def serialized_user
-    @user.to_json(except: [:created_at, :updated_at])
-end
+    def serialized_user
+        @user.to_json(except: [:created_at, :updated_at, :password_digest])
+    end
 
-# def user_params
-#     params.require(:user).permit(:name, :email, :created_at)
-# end
+    def user_params
+        params.permit(:name, :email, :password)
+    end
 
 end
