@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_07_001428) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_13_233743) do
   create_table "expenses", force: :cascade do |t|
     t.integer "party_id", null: false
     t.integer "supply_id", null: false
@@ -24,8 +24,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_07_001428) do
   create_table "invitations", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "party_id", null: false
+    t.integer "guest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "attended"
+    t.index ["guest_id"], name: "index_invitations_on_guest_id"
     t.index ["party_id"], name: "index_invitations_on_party_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
   end
@@ -61,5 +64,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_07_001428) do
   add_foreign_key "expenses", "supplies"
   add_foreign_key "invitations", "parties"
   add_foreign_key "invitations", "users"
+  add_foreign_key "invitations", "users", column: "guest_id"
   add_foreign_key "parties", "users"
 end

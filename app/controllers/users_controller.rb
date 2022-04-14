@@ -20,7 +20,6 @@ class UsersController < ApplicationController
 
     #PATCH "/users/:id"
     def update
-        binding.pry
         @user&.update!(user_params)
         render json: serialized_user, status: :accepted
     end

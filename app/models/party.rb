@@ -2,6 +2,9 @@ class Party < ApplicationRecord
     has_many :expenses, dependent: :destroy
     has_many :supplies, through: :expenses
     belongs_to :host, class_name: "User", foreign_key: :user_id
+    
+    has_many :invitations
+    has_many :guests, through: :invitations, source: :guest
 
     validates :guest_list, :datetime, :location, presence: true
     validates :name, presence: true, uniqueness: true

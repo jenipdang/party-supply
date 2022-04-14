@@ -21,7 +21,7 @@ before_action :find_supply, only: [:show, :update, :destroy]
             Expense.create(supply: @supply, party: party, quantity: params[:quantity])
             render json: serialized_supply, status: :created
         else
-            supply = Supply.create!(supply_params)
+            @supply = Supply.create!(supply_params)
             render json: serialized_supply, status: :created
         end
     end

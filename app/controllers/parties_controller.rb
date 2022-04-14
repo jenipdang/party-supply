@@ -1,19 +1,33 @@
 class PartiesController < ApplicationController
     before_action :find_party, only: [:show, :update, :destroy]
 
-    #GET "/parties" 
+    #GET "/parties" or GET "/users/:user_id/parties"
     def index
-        parties = Party.all
+        if params[:user_id]
+            user = User.find(params[:user_id])
+            parties = user.host_parties
+        else
+            parties = Party.all
+        end
         render json: parties
     end
 
-    #POST "/parties"
+    #POST "/parties" or "/users/:user_id/parties"
     def create
-        @party = Party.new(party_params)
-        @party.datetime = DateTime.strptime(party_params[:datetime], '%Y-%m-%d %H:%M:%S')
-        @party.save!
+        if params[:user_id]
+            # binding.pry
+            user = User.find(params[:user_id])
+            @party = user.host_parties.build(party_params)
+            @party.datetime = DateTime.strptime(party_params[:datetime], '%Y-%m-%d %H:%M:%S')
+            @party.save!
         # @party = Party.create!(party_params)
-        render json: serialized_party, status: :created
+            render json: serialized_party, status: :created
+        else
+            @party = Party.new(party_params)
+            @party.datetime = DateTime.strptime(party_params[:datetime], '%Y-%m-%d %H:%M:%S')
+            @party.save!
+            render json: serialized_party, status: :created
+        end
     end
 
     #GET "/parties/:id"
