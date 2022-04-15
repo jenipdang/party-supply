@@ -5,7 +5,7 @@ rescue_from ActiveRecord::RecordInvalid, with: :cannot_process
     private
 
     def record_not_found
-        render json: { error: "Cannot location resource with ID #{params[:id]}"}.to_json
+        render json: { error: "Cannot locate resource with ID #{params[:id]}"}.to_json
     end
 
     def cannot_process(invalid)
