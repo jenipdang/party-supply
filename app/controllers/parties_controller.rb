@@ -21,24 +21,24 @@ class PartiesController < ApplicationController
             @party.datetime = DateTime.strptime(party_params[:datetime], '%Y-%m-%d %H:%M:%S')
             @party.save!
         # @party = Party.create!(party_params)
-            render json: serialized_party, status: :created
+            render json: @party, status: :created
         else
             @party = Party.new(party_params)
             @party.datetime = DateTime.strptime(party_params[:datetime], '%Y-%m-%d %H:%M:%S')
             @party.save!
-            render json: serialized_party, status: :created
+            render json: @party, status: :created
         end
     end
 
     #GET "/parties/:id"
     def show
-        render json: serialized_party
+        render json: @party
     end
 
     #PATCH "/parties/:id"
     def update
         @party&.update!(party_params)
-        render json: serialized_party, status: :accepted
+        render json: @party, status: :accepted
     end
 
     #DELETE "/parties/:id"
@@ -53,9 +53,9 @@ class PartiesController < ApplicationController
         @party = Party.find(params[:id])
     end
 
-    def serialized_party
-        @party.to_json(except: [:created_at, :updated_at])
-    end
+    # def serialized_party
+    #     @party.to_json(except: [:created_at, :updated_at])
+    # end
 
     def party_params
         params.require(:party).permit(:name, :datetime, :guest_list, :location, :user_id)
